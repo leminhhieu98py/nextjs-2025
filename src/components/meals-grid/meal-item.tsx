@@ -5,7 +5,7 @@ import classes from './meal-item.module.css';
 import { Meal } from './type';
 
 export default function MealItem(meal: Meal) {
-  const { title, mealSlug, image, summary, creator } = meal;
+  const { title, slug, image, summary, creator } = meal;
 
   return (
     <article className={classes.meal}>
@@ -21,7 +21,7 @@ export default function MealItem(meal: Meal) {
       <div className={classes.content}>
         <p className={classes.summary}>{summary}</p>
         <div className={classes.actions}>
-          <Link href={`/meals/${mealSlug}`}>View Details</Link>
+          <Link href={`/meals/${slug}`}>View Details</Link>
         </div>
       </div>
     </article>
