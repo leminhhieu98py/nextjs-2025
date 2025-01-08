@@ -3,13 +3,19 @@ import classes from './page.module.css';
 import { getMealBySlug } from '@/service/meal';
 import { Suspense } from 'react';
 import { Loading } from '@/components/loading';
+import { Meal } from '@/components/meals-grid/type';
+import { notFound } from 'next/navigation';
 
 type Props = {
   params: { slug: string };
 };
 
 const MealDetailUi = async ({ slug }: { slug: string }) => {
-  const meal = await getMealBySlug(slug);
+  const meal: Meal | undefined = await getMealBySlug(slug);
+
+  if (!meal) {
+    notFound();
+  }
 
   return (
     <>
