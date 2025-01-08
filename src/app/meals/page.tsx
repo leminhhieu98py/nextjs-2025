@@ -3,6 +3,7 @@ import classes from './page.module.css';
 import { MealsGrid } from '@/components/meals-grid';
 import { getMeals } from '@/service/meal';
 import { Suspense } from 'react';
+import { Loading } from '@/components/loading';
 
 const Meals = async () => {
   const meals = await getMeals();
@@ -23,7 +24,7 @@ const MealsPage = () => {
         </p>
       </header>
       <main className={classes.main}>
-        <Suspense fallback={<p className={classes.loading}>Loading...</p>}>
+        <Suspense fallback={<Loading />}>
           <Meals />
         </Suspense>
       </main>
