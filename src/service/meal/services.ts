@@ -11,7 +11,7 @@ const getMealBySlug = (slug: string) => {
   return db.prepare('SELECT * FROM meals WHERE slug = ?').get(slug) as Meal;
 };
 
-const createMeal = (meal: Omit<Meal, 'id'>) => {
+const createMeal = async (meal: Omit<Meal, 'id'>) => {
   return db
     .prepare(
       `

@@ -7,7 +7,7 @@ import { Meal } from '@/components/meals-grid/type';
 import { notFound } from 'next/navigation';
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 const MealDetailUi = async ({ slug }: { slug: string }) => {
@@ -42,7 +42,7 @@ const MealDetailUi = async ({ slug }: { slug: string }) => {
 };
 
 const MealDetail = async ({ params }: Props) => {
-  const { slug } = params;
+  const { slug } = await params;
 
   return (
     <>
