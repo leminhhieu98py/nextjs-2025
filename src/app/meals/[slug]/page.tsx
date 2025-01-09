@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import classes from './page.module.css';
-import { getMealBySlug } from '@/service/meal';
+import { getMealBySlug } from '@/service/meal/services';
 import { Suspense } from 'react';
 import { Loading } from '@/components/loading';
 import { Meal } from '@/components/meals-grid/type';

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import classes from './page.module.css';
 import { MealsGrid } from '@/components/meals-grid';
-import { getMeals } from '@/service/meal';
+import { getMeals } from '@/service/meal/services';
 import { Suspense } from 'react';
 import { Loading } from '@/components/loading';
 
