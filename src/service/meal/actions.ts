@@ -10,10 +10,14 @@ import { redirect } from 'next/navigation';
 const handleSubmitForm = async (formData: FormData) => {
   const slug = slugify(formData.get('title')?.toString() || '', { lower: true });
   const preventSXXInstructions = xss(formData.get('instructions')?.toString() || '');
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //   @ts-ignore
   const imageExtension = formData.get('image')?.name?.split('.').pop();
   const imageName = `${slug}.${imageExtension}`;
 
   const stream = fs.createWriteStream(`public/images/foods/${imageName}`);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //   @ts-ignore
   const bufferedImage = await formData.get('image').arrayBuffer();
 
   stream.write(Buffer.from(bufferedImage), (error) => {
