@@ -6,10 +6,28 @@ import slugify from 'slugify';
 import xss from 'xss';
 import { createMeal } from './services';
 import { redirect } from 'next/navigation';
+import { MealShareFormStateProps } from '@/components/meal-form-wrapper';
 
-const handleSubmitForm = async (formData: FormData) => {
+const handleSubmitForm = async (previousState: MealShareFormStateProps, formData: FormData) => {
   const slug = slugify(formData.get('title')?.toString() || '', { lower: true });
   const preventSXXInstructions = xss(formData.get('instructions')?.toString() || '');
+
+  if (!formData.get('name')) {
+    return {
+      errorMessage: 'Invalid Creator name'
+    };
+  }
+
+  const meal: Omit<Meal, 'id'> = {
+    creator: formData.get('name')?.toString() || '',
+    creator_email: formData.get('email')?.toString() || '',
+    title: formData.get('title')?.toString() || '',
+    summary: formData.get('summary')?.toString() || '',
+    instructions: preventSXXInstructions,
+    image: '',
+    slug
+  };
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //   @ts-ignore
   const imageExtension = formData.get('image')?.name?.split('.').pop();
@@ -22,19 +40,13 @@ const handleSubmitForm = async (formData: FormData) => {
 
   stream.write(Buffer.from(bufferedImage), (error) => {
     if (error) {
-      throw new Error('Save image fail');
+      return {
+        errorMessage: 'Save image fail'
+      };
     }
   });
 
-  const meal: Omit<Meal, 'id'> = {
-    creator: formData.get('name')?.toString() || '',
-    creator_email: formData.get('email')?.toString() || '',
-    title: formData.get('title')?.toString() || '',
-    summary: formData.get('summary')?.toString() || '',
-    instructions: preventSXXInstructions,
-    image: `/images/foods/${imageName}`,
-    slug
-  };
+  meal.image = `/images/foods/${imageName}`;
 
   await createMeal(meal);
 

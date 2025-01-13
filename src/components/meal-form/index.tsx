@@ -3,8 +3,11 @@
 import { ImagePicker } from '@/components/image-picker';
 import classes from './page.module.css';
 import { useFormStatus } from 'react-dom';
+import { MealShareFormStateProps } from '@/components/meal-form-wrapper';
 
-export const MealShareForm = () => {
+type Props = { state: MealShareFormStateProps };
+
+export const MealShareForm = ({ state }: Props) => {
   const { pending } = useFormStatus();
   return (
     <>
@@ -36,6 +39,7 @@ export const MealShareForm = () => {
           {pending ? 'Submitting...' : 'Share Meal'}{' '}
         </button>
       </p>
+      {state.errorMessage && <p>{state.errorMessage}</p>}
     </>
   );
 };
