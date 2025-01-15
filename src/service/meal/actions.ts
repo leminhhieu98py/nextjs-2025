@@ -7,6 +7,7 @@ import xss from 'xss';
 import { createMeal } from './services';
 import { redirect } from 'next/navigation';
 import { MealShareFormStateProps } from '@/components/meal-form-wrapper';
+import { revalidatePath } from 'next/cache';
 
 const handleSubmitForm = async (previousState: MealShareFormStateProps, formData: FormData) => {
   const slug = slugify(formData.get('title')?.toString() || '', { lower: true });
@@ -49,6 +50,8 @@ const handleSubmitForm = async (previousState: MealShareFormStateProps, formData
   meal.image = `/images/foods/${imageName}`;
 
   await createMeal(meal);
+
+  revalidatePath('/meals');
 
   redirect('/meals');
 };
