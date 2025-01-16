@@ -1,16 +1,21 @@
+import Link from 'next/link';
+
 export default function NewsLayout({
   children,
   archive,
-  latest
+  latest,
+  catchall
 }: Readonly<{
   children: React.ReactNode;
   archive: React.ReactNode;
   latest: React.ReactNode;
+  catchall: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body>
         {children}
+        <Link href="/news/1">Go to optional catch all 1</Link>
         <br />
         <hr />
 
@@ -19,6 +24,8 @@ export default function NewsLayout({
         <hr />
 
         {latest}
+        <hr />
+        {catchall}
       </body>
     </html>
   );
