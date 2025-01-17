@@ -1,3 +1,3 @@
 export default function LatestPage() {
-  return <h1>News latestPage here</h1>;
+  return <h1>Blog LatestPage here</h1>;
 }
