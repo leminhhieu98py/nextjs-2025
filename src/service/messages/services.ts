@@ -11,8 +11,9 @@ function initDb() {
 }
 
 initDb();
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function addMessage(message: any) {
+  console.log('addMessage', message);
   db.prepare('INSERT INTO messages (text) VALUES (?)').run(message);
 }
 

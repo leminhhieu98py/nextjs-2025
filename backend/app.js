@@ -8,6 +8,7 @@ app.get('/messages', (req, res) => {
   res.json([
     { id: 1, text: 'Hello World' },
     { id: 2, text: 'Another message from the separate backend' },
+    { id: 3, text: 'Another message from the separate backend 3' },
   ]);
 });
 

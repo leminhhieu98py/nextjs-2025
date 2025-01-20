@@ -1,8 +1,10 @@
 import { addMessage } from '@/service/messages/services';
 import { redirect } from 'next/navigation';
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 export default function NewMessagePage() {
-  async function createMessage(formData: any) {
+  // @ts-ignore
+  async function createMessage(formData) {
     'use server';
 
     const message = formData.get('message');

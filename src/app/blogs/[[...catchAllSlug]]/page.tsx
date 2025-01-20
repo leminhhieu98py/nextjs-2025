@@ -1,4 +1,6 @@
-export default function CatchAllPage({ params }: { params: { catchAllSlug: string[] } }) {
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore
+export default function CatchAllPage({ params }) {
   const catchAllSlug: string[] = params.catchAllSlug;
   console.log('catchAllSlug---->', catchAllSlug);
 
