@@ -4,9 +4,7 @@ import './globals.css';
 
 export default async function MessagesLayout({ children }: PropsWithChildren) {
   const response = await fetch('http://localhost:8081/messages', {
-    headers: {
-      'X-ID': 'layout'
-    }
+    cache: 'force-cache'
   });
   const messages = await response.json();
   const totalMessages = messages.length;
