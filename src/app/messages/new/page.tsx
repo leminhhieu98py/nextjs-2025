@@ -1,4 +1,5 @@
 import { addMessage } from '@/service/messages/services';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 /* eslint-disable @typescript-eslint/ban-ts-comment */
@@ -9,6 +10,8 @@ export default function NewMessagePage() {
 
     const message = formData.get('message');
     addMessage(message);
+    revalidatePath('/', 'layout'); // clear cache all routes cache
+    revalidateTag('msg'); // clear all fetch with tag `msg`
     redirect('/messages');
   }
 
