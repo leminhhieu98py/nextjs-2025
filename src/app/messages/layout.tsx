@@ -1,18 +1,13 @@
 import MessageHeader from '@/components/messages/header';
 import { PropsWithChildren } from 'react';
 import './globals.css';
+import { getMessages } from '@/service/messages/services';
 
 // export const revalidate = 5;
 // export const dynamic = 'force-dynamic' // === cache: 'no-store'
 
-export default async function MessagesLayout({ children }: PropsWithChildren) {
-  const response = await fetch('http://localhost:8081/messages', {
-    cache: 'no-store',
-    next: {
-      tags: ['msg']
-    }
-  });
-  const messages = await response.json();
+export default function MessagesLayout({ children }: PropsWithChildren) {
+  const messages = getMessages();
   const totalMessages = messages.length;
 
   return (
