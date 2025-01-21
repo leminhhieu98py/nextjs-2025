@@ -10,7 +10,7 @@ export default function NewMessagePage() {
 
     const message = formData.get('message');
     addMessage(message);
-    revalidatePath('/', 'layout'); // clear cache all routes cache
+    // revalidatePath('/', 'layout'); // clear cache all routes cache
     revalidateTag('msg'); // clear all fetch with tag `msg`
     redirect('/messages');
   }

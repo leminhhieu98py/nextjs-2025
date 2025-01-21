@@ -6,8 +6,8 @@ import { getMessages } from '@/service/messages/services';
 // export const revalidate = 5;
 // export const dynamic = 'force-dynamic' // === cache: 'no-store'
 
-export default function MessagesLayout({ children }: PropsWithChildren) {
-  const messages = getMessages();
+export default async function MessagesLayout({ children }: PropsWithChildren) {
+  const messages = await getMessages();
   const totalMessages = messages.length;
 
   return (
