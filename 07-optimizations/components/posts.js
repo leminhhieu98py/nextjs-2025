@@ -11,7 +11,7 @@ function postImageLoader(config) {
   const splitUrl = config.src.split('upload/');
   const startUrl = splitUrl[0];
   const endUrl = splitUrl[1];
-  const transformations = `w_200,q_${config.quality}`;
+  const transformations = `w_${config.width},q_${config.quality}`;
 
   return `${startUrl}upload/${transformations}/${endUrl}`;
 }
@@ -20,7 +20,14 @@ function Post({ post, action }) {
   return (
     <article className="post">
       <div className="post-image">
-        <Image loader={postImageLoader} src={post.image} alt={post.title} quality={90} fill />
+        <Image
+          loader={postImageLoader}
+          src={post.image}
+          alt={post.title}
+          quality={90}
+          width={200}
+          height={10}
+        />
       </div>
       <div className="post-content">
         <header>
