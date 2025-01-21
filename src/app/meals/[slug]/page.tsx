@@ -10,8 +10,20 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export function generateMetadata({ params }) {
+  const slug = params.slug;
+  const meal: Meal | undefined = getMealBySlug(slug);
+
+  return {
+    title: meal.title,
+    description: meal.summary
+  };
+}
+
 const MealDetailUi = async ({ slug }: { slug: string }) => {
-  const meal: Meal | undefined = await getMealBySlug(slug);
+  const meal: Meal | undefined = getMealBySlug(slug);
 
   if (!meal) {
     notFound();
