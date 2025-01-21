@@ -7,12 +7,20 @@ import LikeButton from './like-icon';
 import { togglePostLikeStatus } from '@/actions/posts';
 import Image from 'next/image';
 
+function postImageLoader(config) {
+  const splitUrl = config.src.split('upload/');
+  const startUrl = splitUrl[0];
+  const endUrl = splitUrl[1];
+  const transformations = `w_200,q_${config.quality}`;
+
+  return `${startUrl}upload/${transformations}/${endUrl}`;
+}
+
 function Post({ post, action }) {
-  console.log('--> post', post);
   return (
     <article className="post">
       <div className="post-image">
-        <Image src={post.image} alt={post.title} fill />
+        <Image loader={postImageLoader} src={post.image} alt={post.title} quality={90} fill />
       </div>
       <div className="post-content">
         <header>
