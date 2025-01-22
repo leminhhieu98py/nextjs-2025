@@ -1,6 +1,8 @@
 import Posts from '@/components/posts';
 import { getPosts } from '@/lib/posts';
 
+// If the app uses the page router (not the file-based), we can add static and dynamic metadata using the <Head> component from Nextjs
+
 export const metadata = {
   title: 'All Posts',
   description: 'Browse our all posts'
