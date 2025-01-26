@@ -1,4 +1,4 @@
-import { getTrainings } from '@/lib/training';
+import { getTrainings } from '@/service/training/service';
 
 export default async function TrainingPage() {
   const trainingSessions = getTrainings();
