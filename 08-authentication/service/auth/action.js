@@ -1,11 +1,8 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-
-function validateEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
+import { createUser } from '../user/service';
+import { hashUserPassword, validateEmail } from '@/utils/user';
 
 async function handleSubmitForm(_, formData) {
   const email = formData.get('email');
@@ -25,16 +22,28 @@ async function handleSubmitForm(_, formData) {
 
   const user = {
     email,
-    password
+    password: hashUserPassword(password)
   };
 
   console.log('user', user);
 
-  //   await createMeal(meal);
+  try {
+    await createUser(meal);
+  } catch (error) {
+    if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      return {
+        errorMessage: 'This email is existed. Please try again with another email'
+      };
+    }
 
-  //   revalidatePath('/meals');
+    return {
+      errorMessage: 'Something went wrong. Try again later'
+    };
+  }
 
-  redirect('/training');
+  // revalidatePath('/');
+
+  // redirect('/training');
 }
 
 export { handleSubmitForm };
