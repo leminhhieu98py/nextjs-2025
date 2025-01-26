@@ -36,7 +36,7 @@ export const MealShareForm = ({ state }: Props) => {
       <ImagePicker label="Your image" name="image" />
       <p className={classes.actions}>
         <button type="submit" disabled={pending}>
-          {pending ? 'Submitting...' : 'Share Meal'}{' '}
+          {pending ? 'Submitting...' : 'Share Meal'}
         </button>
       </p>
       {state.errorMessage && <p>{state.errorMessage}</p>}
