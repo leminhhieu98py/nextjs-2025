@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useFormStatus, useFormState } from 'react-dom';
 
 export default function AuthForm() {
+  // add form action by mode from search params
   const [state, formAction] = useFormState(handleSubmitForm, { errorMessage: '' });
   const { pending } = useFormStatus();
 
@@ -26,6 +27,7 @@ export default function AuthForm() {
         <button type="submit">{pending ? 'Submitting...' : 'Create Account'}</button>
       </p>
       <p>
+        {/* TODO: add login mode handler */}
         <Link href="/">Login with existing account.</Link>
       </p>
       {state.errorMessage && <p>{state.errorMessage}</p>}
