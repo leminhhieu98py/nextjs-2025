@@ -9,6 +9,9 @@ const createUser = async (user) => {
       `
     )
     .run(user);
+
+  // TODO: invoke function createSession
+
   return result.lastInsertRowid;
 };
 
