@@ -7,7 +7,10 @@ import { useFormStatus, useFormState } from 'react-dom';
 
 export default function AuthForm() {
   // add form action by mode from search params
-  const [state, formAction] = useFormState(handleSubmitForm, { errorMessage: '' });
+  const [state, formAction] = useFormState(
+    handleSubmitForm /* should we use bind or condiional function? */,
+    { errorMessage: '' }
+  );
   const { pending } = useFormStatus();
 
   return (
