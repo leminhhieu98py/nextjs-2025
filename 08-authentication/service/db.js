@@ -1,12 +1,11 @@
-import sql from 'better-sqlite3';
+const sql = require('better-sqlite3');
 
 const db = sql('training.db');
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY,
-    email TEXT UNIQUE,
-    password TEXT
+db.exec(`CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY,
+  email TEXT UNIQUE,
+  password TEXT
   );
 `);
 
@@ -17,17 +16,15 @@ db.exec(`CREATE TABLE IF NOT EXISTS sessions (
   FOREIGN KEY (user_id) REFERENCES users(id)
 )`);
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS trainings (
-    id INTEGER PRIMARY KEY,
-    title TEXT,
-    image TEXT,
-    description TEXT
+db.exec(`CREATE TABLE IF NOT EXISTS trainings (
+  id INTEGER PRIMARY KEY,
+  title TEXT,
+  image TEXT,
+  description TEXT
   );
 `);
 
-const hasTrainings =
-  db.prepare('SELECT COUNT(*) as count FROM trainings').get().count > 0;
+const hasTrainings = db.prepare('SELECT COUNT(*) as count FROM trainings').get().count > 0;
 
 if (!hasTrainings) {
   db.exec(`
