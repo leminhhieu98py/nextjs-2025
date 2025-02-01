@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { cache } from 'react';
 
-import { Lucia } from 'lucia';
+import { Lucia, TimeSpan } from 'lucia';
 import { BetterSqlite3Adapter } from '@lucia-auth/adapter-sqlite';
 import sqlite from 'better-sqlite3';
 
@@ -13,9 +13,12 @@ const adapter = new BetterSqlite3Adapter(db, {
   session: 'sessions'
 });
 
+const expireInstance = new TimeSpan(10, 'm'); // 10 minutes
+
 const lucia = new Lucia(adapter, {
+  sessionExpiresIn: expireInstance,
   sessionCookie: {
-    expires: 3600,
+    expires: true,
     attributes: {
       secure: process.env.NODE_ENV === 'production'
     }
