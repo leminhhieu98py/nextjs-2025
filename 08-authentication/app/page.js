@@ -2,12 +2,13 @@ import AuthForm from '@/components/auth-form';
 import { validateAuth } from '@/utils/auth';
 import { redirect } from 'next/navigation';
 
-// TODO: add login mode from search params
-export default async function Home() {
+export default async function Home({ searchParams }) {
   const { user } = await validateAuth();
   if (user) {
     redirect('/training');
   }
 
-  return <AuthForm />;
+  const { authMode = 'signup' } = await searchParams;
+
+  return <AuthForm authMode={authMode} />;
 }

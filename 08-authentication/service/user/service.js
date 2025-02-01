@@ -2,7 +2,7 @@ import sqlite from 'better-sqlite3';
 
 const db = sqlite('training.db');
 
-const createUser = async (user) => {
+const createUser = (user) => {
   const result = db
     .prepare(
       `
@@ -17,4 +17,8 @@ const createUser = async (user) => {
   return result.lastInsertRowid;
 };
 
-export { createUser };
+const getUser = (email) => {
+  return db.prepare(`SELECT * FROM users WHERE email = ?`).get(email);
+};
+
+export { createUser, getUser };

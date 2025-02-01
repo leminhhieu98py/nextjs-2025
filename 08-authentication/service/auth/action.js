@@ -1,8 +1,8 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { createUser } from '../user/service';
-import { hashUserPassword, validateEmail } from '@/utils/user';
+import { createUser, getUser } from '../user/service';
+import { hashUserPassword, validateEmail, verifyPassword } from '@/utils/user';
 import { lucia } from '@/utils/auth';
 import { cookies } from 'next/headers';
 
@@ -24,7 +24,7 @@ function validateFormData(formData) {
 
   const user = {
     email,
-    password: hashUserPassword(password)
+    password
   };
 
   return {
@@ -39,12 +39,15 @@ async function createSession(userId) {
   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 }
 
-async function handleSubmitLoginForm(_, formData) {
+async function handleSubmitSignupForm(_, formData) {
   const result = validateFormData(formData);
   if (result.errorMessage) return result.errorMessage;
 
   try {
-    const userId = await createUser(result.user);
+    const userId = await createUser({
+      ...result.user,
+      password: hashUserPassword(result.user.password)
+    });
 
     await createSession(userId);
     redirect('/training');
@@ -61,4 +64,32 @@ async function handleSubmitLoginForm(_, formData) {
   }
 }
 
-export { handleSubmitLoginForm };
+async function handleSubmitLoginForm(_, formData) {
+  const result = validateFormData(formData);
+  if (result.errorMessage) return result.errorMessage;
+
+  try {
+    const existUser = getUser(result.user.email);
+    if (!existUser) {
+      return {
+        errorMessage: 'This email does not exist. Please check the email or signup a new account'
+      };
+    }
+    const isValidPassword = verifyPassword(existUser.password, result.user.password);
+
+    if (!isValidPassword) {
+      return {
+        errorMessage: 'Password is incorrect. Please try again'
+      };
+    }
+
+    await createSession(existUser.id);
+    redirect('/training');
+  } catch {
+    return {
+      errorMessage: 'Something went wrong. Try again later'
+    };
+  }
+}
+
+export { handleSubmitSignupForm, handleSubmitLoginForm };

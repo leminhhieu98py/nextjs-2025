@@ -1,4 +1,3 @@
-// TODO: 3. validateSessionToken
 // TODO: 4. invalidateSessionToken
 
 import { cookies } from 'next/headers';
