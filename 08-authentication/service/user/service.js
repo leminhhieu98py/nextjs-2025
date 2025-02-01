@@ -1,3 +1,7 @@
+import sqlite from 'better-sqlite3';
+
+const db = sqlite('training.db');
+
 const createUser = async (user) => {
   const result = db
     .prepare(
@@ -9,8 +13,6 @@ const createUser = async (user) => {
       `
     )
     .run(user);
-
-  // TODO: invoke function createSession
 
   return result.lastInsertRowid;
 };

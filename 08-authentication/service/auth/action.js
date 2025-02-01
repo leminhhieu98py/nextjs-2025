@@ -3,8 +3,10 @@
 import { redirect } from 'next/navigation';
 import { createUser } from '../user/service';
 import { hashUserPassword, validateEmail } from '@/utils/user';
+import { lucia } from '@/utils/auth';
+import { cookies } from 'next/headers';
 
-async function handleSubmitForm(_, formData) {
+function validateFormData(formData) {
   const email = formData.get('email');
   const password = formData.get('password');
 
@@ -25,10 +27,27 @@ async function handleSubmitForm(_, formData) {
     password: hashUserPassword(password)
   };
 
-  console.log('user', user);
+  return {
+    errorMessage: false,
+    user
+  };
+}
+
+async function createSession(userId) {
+  const session = await lucia.createSession(userId, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
+  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+}
+
+async function handleSubmitLoginForm(_, formData) {
+  const result = validateFormData(formData);
+  if (result.errorMessage) return result.errorMessage;
 
   try {
-    await createUser(meal);
+    const userId = await createUser(result.user);
+
+    await createSession(userId);
+    redirect('/training');
   } catch (error) {
     if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
       return {
@@ -40,12 +59,6 @@ async function handleSubmitForm(_, formData) {
       errorMessage: 'Something went wrong. Try again later'
     };
   }
-
-  // revalidatePath('/');
-
-  // redirect('/training');
 }
 
-// TODO: add login server action
-
-export { handleSubmitForm };
+export { handleSubmitLoginForm };
