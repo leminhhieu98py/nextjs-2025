@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { createUser, getUser } from '../user/service';
 import { hashUserPassword, validateEmail, verifyPassword } from '@/utils/user';
-import { lucia } from '@/utils/auth';
+import { lucia, validateAuth } from '@/utils/auth';
 import { cookies } from 'next/headers';
 
 function validateFormData(formData) {
@@ -36,6 +36,19 @@ function validateFormData(formData) {
 async function createSession(userId) {
   const session = await lucia.createSession(userId, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
+  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+}
+
+async function destroySession() {
+  const { session } = await validateAuth();
+
+  if (!session?.id) {
+    throw new Error('Unauthorized!');
+  }
+
+  await lucia.invalidateSession(session.id);
+
+  const sessionCookie = lucia.createBlankSessionCookie();
   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 }
 
@@ -92,4 +105,13 @@ async function handleSubmitLoginForm(_, formData) {
   }
 }
 
-export { handleSubmitSignupForm, handleSubmitLoginForm };
+async function logout() {
+  try {
+    await destroySession();
+    redirect('/');
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export { handleSubmitSignupForm, handleSubmitLoginForm, logout };
