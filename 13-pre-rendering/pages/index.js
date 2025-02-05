@@ -7,7 +7,8 @@ export async function getStaticProps() {
   const data = JSON.parse(jsonData);
 
   return {
-    props: data
+    props: data,
+    revalidate: 20
   };
 }
 
