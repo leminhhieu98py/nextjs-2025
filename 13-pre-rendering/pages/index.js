@@ -6,6 +6,14 @@ export async function getStaticProps() {
   const jsonData = await fs.readFile(pathName);
   const data = JSON.parse(jsonData);
 
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/no-data' // sample route to redirect if can not get the data from the DB
+      }
+    };
+  }
+
   return {
     props: data,
     revalidate: 20
