@@ -1,5 +1,5 @@
 import { addMessage } from '@/service/messages/services';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 /* eslint-disable @typescript-eslint/ban-ts-comment */
