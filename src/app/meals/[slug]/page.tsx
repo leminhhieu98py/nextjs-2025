@@ -22,6 +22,10 @@ export function generateMetadata({ params }) {
   };
 }
 
+export async function generateStaticParams() {
+  return [{ slug: 'juicy-cheese-burger' }, { slug: 'spicy-curry' }];
+}
+
 const MealDetailUi = async ({ slug }: { slug: string }) => {
   const meal: Meal | undefined = getMealBySlug(slug);
 
